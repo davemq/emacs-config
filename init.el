@@ -26,7 +26,7 @@
  '(erc-nick-uniquifier "W")
  '(erc-pals (quote ("morsing" "hartb" "tbberry" "aTypical")))
  '(gnus-decay-scores t)
- '(gnus-select-method (quote (nnimap "imap.linux.ibm.com")))
+ '(gnus-select-method (quote (nnimap "imap.linux.ibm.com" (nnimap-stream ssl))))
  '(gnus-summary-exit-hook (quote (gnus-summary-bubble-group)))
  '(gnus-thread-sort-functions (quote (gnus-thread-sort-by-number gnus-thread-sort-by-total-score)))
  '(gnus-total-expirable-newsgroups ".*")
@@ -83,11 +83,11 @@
       )
 (defun drm:erc ()
   (interactive)
-  (condition-case nil (erc :server "austin.irc.ibm.com" :nick "davemq" :password "irc4me") ; Bluenet
+  (condition-case nil (erc :server "ipv4-085.austin.ibm.com" :port 57000 :nick "davemq" :password "ibm") ; Bluenet
     (error nil))
-  (condition-case nil (erc :server "chat.freenode.net" :nick "davemq" :password "irc4me") ; Freenode
+  (condition-case nil (erc :server "ipv4-085.austin.ibm.com" :port 57000 :nick "davemqf" :password "freenode") ; Freenode
     (error nil))
-  (condition-case nil (erc :server "irc.oftc.net" :nick "davemq" :password "irc4me") ; OFTC
+  (condition-case nil (erc :server "ipv4-085.austin.ibm.com" :port 57000 :nick "davemqo" :password "oftc") ; OFTC
     (error nil))
   (condition-case nil (erc :server "localhost" :nick "davemarq" :password "irc4me") ; BitlBee
     (error nil))
