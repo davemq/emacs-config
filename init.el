@@ -1,14 +1,18 @@
 ;; package.el (ELPA)
 (add-to-list 'load-path (expand-file-name "~/emacs/lisp"))
-(require 'package)
-;; Any add to list for package-archives (to add marmalade or melpa) goes here
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-					;                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
-(package-initialize)
+;;; This was installed by package-install.el.
+;;; This provides support for the package system and
+;;; interfacing with ELPA, the package archive.
+;;; Move this code earlier if you want to reference
+;;; packages in your .emacs.
+(when
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (package-initialize))
 
 ;; server
 (server-start)
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -26,14 +30,24 @@
  '(erc-nick-uniquifier "W")
  '(erc-pals (quote ("morsing" "hartb" "tbberry" "aTypical")))
  '(gnus-decay-scores t)
- '(gnus-select-method (quote (nnimap "imap.linux.ibm.com" (nnimap-stream ssl))))
+ '(gnus-default-charset (quote iso-8859-1))
+ '(gnus-group-mode-hook (quote (gnus-agent-mode gnus-topic-mode)))
+ '(gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
+ '(gnus-message-archive-group "Sent")
+ '(gnus-message-archive-method (quote (nnimap "imap.linux.ibm.com" (nnimap-stream ssl) (nnimap-authenticator login))))
+ '(gnus-posting-styles (quote ((".*" (address "davemarq@linux.vnet.ibm.com") (eval (setq smtp-mail-server "na.relay.ibm.com" smtp-mail-service 25 gnus-message-archive-group "Sent"))) ("nnimap\\+gmail:.*" (address "dave.marquardt.tx@gmail.com") (eval (setq smtp-mail-server "smtp.gmail.com" smtp-mail-service 465 gnus-message-archive-group "nnimap+gmail:[Gmail]/Sent Mail"))))))
+ '(gnus-select-method (quote (nnimap "imap.linux.ibm.com" (nnimap-stream ssl) (nnimap-authenticator login))))
  '(gnus-summary-exit-hook (quote (gnus-summary-bubble-group)))
+ '(gnus-summary-line-format "%U%R%z %10&user-date; %I%(%[%4L: %-23,23f%]%) %s
+")
  '(gnus-thread-sort-functions (quote (gnus-thread-sort-by-number gnus-thread-sort-by-total-score)))
  '(gnus-total-expirable-newsgroups ".*")
  '(gnus-use-adaptive-scoring (quote (line)))
+ '(ldap-host-parameters-alist (quote (("bluepages.ibm.com" base "ou=bluepages,o=ibm.com" auth simple scope subtree))))
  '(mail-host-address "linux.vnet.ibm.com")
  '(message-from-style (quote angles))
  '(message-send-mail-function (quote message-smtpmail-send-it))
+ '(org-modules (quote (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m org-velocity)))
  '(org-time-clocksum-format (quote (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
  '(scroll-bar-mode (quote right))
  '(smtpmail-smtp-server "na.relay.ibm.com")
@@ -105,3 +119,22 @@
 ;; (setq emms-player-list '(emms-player-rhythmbox))
 
 (put 'narrow-to-region 'disabled nil)
+
+;; Org-mode
+;(require 'org-velocity)
+(require 'org)
+(setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
+(global-set-key (kbd "C-c v") 'org-velocity)
+
+;; P4
+(add-to-list 'auto-coding-alist '("\\.p4r" . no-conversion-multibyte))
+(add-to-list 'auto-mode-alist '("\\.p4r" . archive-mode))
+
+;; EUDC
+(require 'eudc)
+(eval-after-load
+    "message"
+  '(define-key message-mode-map [(control ?c) (tab)] 'eudc-expand-inline))
+(eval-after-load
+    "sendmail"
+  '(define-key mail-mode-map [(control ?c) (tab)] 'eudc-expand-inline))
