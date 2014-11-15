@@ -5,4 +5,4 @@ elpa
 emms/history
 tramp
 url/cookies
-
+session.*

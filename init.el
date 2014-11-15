@@ -1,6 +1,10 @@
 ;; server
 (server-start)
 
+(require 'package)
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -9,6 +13,7 @@
  '(calendar-latitude 30.5151)
  '(calendar-location-name "Round Rock, TX")
  '(calendar-longitude -97.7164666667)
+ '(custom-safe-themes (quote ("1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(custom-theme-load-path (quote (custom-theme-directory "~/emacs-color-theme-solarized" t)))
  '(default-frame-alist (quote ((menu-bar-lines . 1) (tool-bar-lines . 1) (width . 122) (height . 40))))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
@@ -37,7 +42,9 @@
  '(message-send-mail-function (quote message-smtpmail-send-it))
  '(org-agenda-files (quote ("~/pers/personal.org")))
  '(org-habit-show-habits-only-for-today nil)
+ '(org-log-into-drawer t)
  '(org-modules (quote (org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-habit org-irc org-mew org-mhe org-rmail org-vm org-wl org-w3m)))
+ '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("melpa" . "http://melpa.org/packages/"))))
  '(scroll-bar-mode (quote right))
  '(smtpmail-smtp-server "smtp.gmail.com")
  '(smtpmail-smtp-service 587)
@@ -61,15 +68,15 @@
 ; (setq bbdb-use-pop-up t)
 
 ;; color themes
-(require 'color-theme)
-(load-library "color-theme-library")
-;; solarized
-;; (add-to-list 'load-path (expand-file-name "~/emacs/emacs-color-theme-solarized"))
-;(load-theme 'solarized-light t t)
-;(load-theme 'solarized-dark t t)
+;; (require 'color-theme)
+;; (load-library "color-theme-library")
+;; ;; solarized
+;; ;; (add-to-list 'load-path (expand-file-name "~/emacs/emacs-color-theme-solarized"))
+;; ;(load-theme 'solarized-light t t)
+;; ;(load-theme 'solarized-dark t t)
 
-;; random theme
-(funcall (car (nth (random (length color-themes)) color-themes)))
+;; ;; random theme
+;; (funcall (car (nth (random (length color-themes)) color-themes)))
 
 ;; ERC
 (require 'erc)
