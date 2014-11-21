@@ -1,0 +1,5 @@
+Sadly, this repository has two heads, as I init.el has gotten out of
+synch between work and home, I'll need to restructure it to use
+location-specific code, and I don't want to do that right now.  So for
+now there are two branches, default and an anonymous branch where
+init.el diverged.
