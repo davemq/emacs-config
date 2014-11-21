@@ -5,4 +5,5 @@ elpa
 emms/history
 tramp
 url/cookies
-
+C:*
+eshell/*
