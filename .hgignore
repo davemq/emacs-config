@@ -6,3 +6,6 @@ emms/history
 tramp
 url/cookies
 session.*
+C:*
+eshell/*
+*.orig
