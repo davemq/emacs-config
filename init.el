@@ -30,8 +30,14 @@
       )
 (defun drm:erc ()
   (interactive)
-  (condition-case nil (erc :server "localhost" :nick "davemarq" :password "irc4me") ; BitlBee
+  (condition-case nil (erc :server "ipv4-085.austin.ibm.com" :port 57000 :nick "davemqf" :password "freenode") ; Freenode
     (error nil))
+  (condition-case nil (erc :server "ipv4-085.austin.ibm.com" :port 57000 :nick "davemqo" :password "oftc") ; OFTC
+    (error nil))
+  (condition-case nil (erc :server "ipv4-085.austin.ibm.com" :port 57000 :nick "davemqg" :password "geekshed") ; Geekshed
+    (error nil))
+  ;; (condition-case nil (erc :server "localhost" :nick "davemarq" :password "irc4me") ; BitlBee
+  ;;   (error nil))
   )
 
 ;; auto fill
