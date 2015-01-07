@@ -11,30 +11,16 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-;; BBDB
-;; (require 'bbdb)
-;; (bbdb-initialize 'gnus 'message)
-;; (bbdb-insinuate-message)
-;; (add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
-;; (setq bbdb/mail-auto-create-p t)
-;; (setq bbdb/news-auto-create-p t)
-; (setq bbdb-use-pop-up t)
+;; gtags
+(add-to-list 'load-path "/usr/share/gtags")
+(require 'gtags)
 
-;; color themes
-;; (require 'color-theme)
-;; (load-library "color-theme-library")
-;; ;; solarized
-;; ;; (add-to-list 'load-path (expand-file-name "~/emacs/emacs-color-theme-solarized"))
-;; ;(load-theme 'solarized-light t t)
-;; ;(load-theme 'solarized-dark t t)
-
-;; ;; random theme
-;; (funcall (car (nth (random (length color-themes)) color-themes)))
-
+;; random color theme
 (load-theme (nth (random (length (custom-available-themes))) (custom-available-themes)))
 
 ;; ERC
 (require 'erc)
+;(load-library "erc-hl-nicks")
 (setq erc-autojoin-channels-alist
       '(
 	("freenode.net" "##aix" "#bitbucket" "#austin" "#emacs" "#erc" "#gnus" "#mercurial" "#org-mode" "#ppc64"
