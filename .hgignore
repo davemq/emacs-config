@@ -8,3 +8,6 @@ url/cookies
 C:*
 eshell/*
 *.orig
+url/cache
+session.*
+.org-id-locations
