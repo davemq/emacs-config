@@ -16,6 +16,7 @@
 (require 'gtags)
 
 ;; random color theme
+(random t)
 (load-theme (nth (random (length (custom-available-themes))) (custom-available-themes)))
 
 ;; ERC
@@ -63,6 +64,10 @@
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
+(add-hook 'org-mode-hook (lambda () (require 'orgbox)))
+
+;(require 'org-notify)
+;(org-notify-start)
 
 ;; P4
 (add-to-list 'auto-coding-alist '("\\.p4r" . no-conversion-multibyte))
@@ -76,3 +81,28 @@
 (eval-after-load
     "sendmail"
   '(define-key mail-mode-map [(control ?c) (tab)] 'eudc-expand-inline))
+
+;; Haskell
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+;; AUCTeX
+(add-to-list 'auto-mode-alist '("\\.tex" . LaTeX-mode))
+
+;; Load CEDET.
+;; See cedet/common/cedet.info for configuration details.
+;; IMPORTANT: Tou must place this *before* any CEDET component
+;; gets activated by another package (Gnus, auth-source, ...).
+(load-file "~/cedet/cedet-devel-load.el")
+
+;; Add further minor-modes to be enabled by semantic-mode.
+;; See doc-string of `semantic-default-submodes' for other things
+;; you can use here.
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode t)
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode t)
+(add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode t)
+
+;; Enable Semantic
+(semantic-mode 1)
+
+;; Enable EDE (Project Management) features
+(global-ede-mode 1)

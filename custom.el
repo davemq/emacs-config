@@ -11,13 +11,14 @@
  '(calendar-longitude -97.7164666667)
  '(custom-safe-themes
    (quote
-    ("c1fb68aa00235766461c7e31ecfc759aa2dd905899ae6d95097061faeb72f9ee" "b21bf64c01dc3a34bc56fff9310d2382aa47ba6bc3e0f4a7f5af857cd03a7ef7" "a655f17225ad0a7190c79602593563191b7640ddebbb8c8fbd80c9d82faff1c6" "d143750cb9fadb9ea9a3a27e0632418d2ad09788e115a61a64dd5404fedfe178" "7feeed063855b06836e0262f77f5c6d3f415159a98a9676d549bfeb6c49637c4" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+    ("7cc5593f51dc0a67fe058cac103b0804cb3205a5918aeab7ec2f4be60b4a58d5" "26247bcb0b272ec9a5667a6b854125450c88a44248123a03d9f242fd5c6ec36f" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "c1fb68aa00235766461c7e31ecfc759aa2dd905899ae6d95097061faeb72f9ee" "b21bf64c01dc3a34bc56fff9310d2382aa47ba6bc3e0f4a7f5af857cd03a7ef7" "a655f17225ad0a7190c79602593563191b7640ddebbb8c8fbd80c9d82faff1c6" "d143750cb9fadb9ea9a3a27e0632418d2ad09788e115a61a64dd5404fedfe178" "7feeed063855b06836e0262f77f5c6d3f415159a98a9676d549bfeb6c49637c4" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(default-frame-alist
     (quote
      ((menu-bar-lines . 1)
       (tool-bar-lines . 1)
       (width . 122)
       (height . 40))))
+ '(diary-file "~/pers/diary")
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
@@ -287,7 +288,10 @@
  '(gnus-agent-queue-mail nil)
  '(gnus-decay-scores t)
  '(gnus-default-charset (quote iso-8859-1))
- '(gnus-demon-handlers (quote ((gnus-demon-add-rescan 30 t) (gnus-demon-add-scanmail 30 t))))
+ '(gnus-demon-handlers
+   (quote
+    ((gnus-demon-add-rescan 30 t)
+     (gnus-demon-add-scanmail 30 t))))
  '(gnus-group-mode-hook (quote (gnus-agent-mode gnus-topic-mode)))
  '(gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
  '(gnus-message-archive-group "Sent")
@@ -306,21 +310,63 @@
  '(gnus-summary-exit-hook (quote (gnus-summary-bubble-group)))
  '(gnus-summary-line-format "%U%R%z %(%&user-date;  %-15,15f  %B%s%)\\n")
  '(gnus-summary-thread-gathering-function (quote gnus-gather-threads-by-references))
- '(gnus-thread-sort-functions (quote (gnus-thread-sort-by-date gnus-thread-sort-by-score gnus-thread-sort-by-total-score)))
+ '(gnus-thread-sort-functions
+   (quote
+    (gnus-thread-sort-by-date gnus-thread-sort-by-score gnus-thread-sort-by-total-score)))
  '(gnus-total-expirable-newsgroups ".*")
  '(gnus-use-adaptive-scoring (quote (line)))
- '(gnus-user-date-format-alist (quote (((gnus-seconds-today) . "           %H:%M") ((gnus-seconds-month) . "     ---%d %H:%M") ((gnus-seconds-year) . "   --%m-%d %H:%M") (t . "%Y-%m-%d %H:%M"))))
+ '(gnus-user-date-format-alist
+   (quote
+    (((gnus-seconds-today)
+      . "           %H:%M")
+     ((gnus-seconds-month)
+      . "     ---%d %H:%M")
+     ((gnus-seconds-year)
+      . "   --%m-%d %H:%M")
+     (t . "%Y-%m-%d %H:%M"))))
  '(mail-host-address nil)
  '(message-from-style (quote angles))
  '(message-send-mail-function (quote message-smtpmail-send-it))
  '(org-agenda-files (quote ("~/pers/personal.org")))
- '(org-babel-load-languages (quote ((emacs-lisp . t) (sh . t))))
+ '(org-agenda-include-diary t)
+ '(org-babel-load-languages (quote ((emacs-lisp . t))))
  '(org-clock-clocktable-default-properties (quote (:maxlevel 2 :scope file :indent nil :formula %)))
  '(org-habit-show-habits-only-for-today nil)
+ '(org-html-postamble-format
+   (quote
+    (("en" "<p class=\"author\">Author: %a (%e)</p>
+<p class=\"date\">Date: %d</p>
+<p class=\"creator\">%c</p>"))))
+ '(org-html-validation-link "")
+ '(org-latex-classes
+   (quote
+    (("article" "\\documentclass[11pt]{article}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+     ("report" "\\documentclass[11pt]{report}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("book" "\\documentclass[11pt]{book}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("letter" "\\documentclass[11pt]{letter}"
+      ("\\section{%s}" . "\\section*{%s}")))))
  '(org-log-into-drawer t)
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-habit org-irc org-mew org-mhe org-rmail org-vm org-wl org-w3m)))
+ '(org-todo-keywords
+   (quote
+    ((sequence "TODO(t!)" "|" "DONE(d!)" "CANCELED(c!)"))))
  '(package-archives
    (quote
     (("gnu" . "http://elpa.gnu.org/packages/")

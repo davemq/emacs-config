@@ -9,3 +9,4 @@ session.*
 C:*
 eshell/*
 *.orig
+semanticdb/*
