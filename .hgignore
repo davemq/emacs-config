@@ -11,3 +11,4 @@ eshell/*
 url/cache
 session.*
 .org-id-locations
+custom.el
