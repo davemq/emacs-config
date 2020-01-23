@@ -5,8 +5,10 @@ elpa
 emms/history
 tramp
 url/cookies
-session.*
 C:*
 eshell/*
 *.orig
-semanticdb/*
+url/cache
+session.*
+.org-id-locations
+custom.el
