@@ -1,0 +1,43 @@
+* Imported Feeds            :elfeed:
+
+** IBM                                                                  :ibm:
+*** [[https://w3-connections.ibm.com/widget/opensocial/basic/rest/activitystreams/@me/@all/@all?shortStrings=true&rollup=true&format=atom][IBM Connections - News feed for David R. Marquardt]]
+*** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/30f982c3-616f-4b5b-9978-3b711e1fda79/entries/atom?lang=en_us][THINKtogether]]
+*** [[https://www.ibm.com/developerworks/community/blogs/roller-ui/rendering/feed/DaveMarquardt-dw/entries/atom?lang=en][Dave's Blog]]
+*** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/ad9b8359-56ec-4922-8c0d-081712adca47/entries/atom?lang=en_us][Strategic Imperatives Learning Events Community]]
+*** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/9b423260-ec3f-4c33-9e8e-91cd8d26e688/entries/atom?lang=en_us][Transforming IBM]]
+*** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/92423b28-353a-49d9-9d5d-d21cd1de10be/entries/atom?lang=en_us][Whole Team Approach - Project Whitewater blog]]
+*** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/801cf8e1-364a-48ec-ac2d-aa091376fff6/entries/atom?lang=en_us][Linux@IBM Blog]]
+*** [[https://www.ibm.com/blogs/systems/feed/][IBM IT Infrastructure Blog]]
+*** Austin                                                           :austin:
+**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/26e90eea-a787-4918-834a-278e93d52584/entries/atom?lang=en_us][Jason Kelley, Texas SSE]]
+**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/509d4b8b-1a5b-4a55-824d-ce396635cd31/entries/atom?lang=en_us][Austin Corporate Citizenship & Corporate Affairs]]
+
+**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/644f8ce1-2b1b-4b50-8c3d-4559da607988/entries/atom?lang=en_us][IBM Austin Leadership Blog]]
+
+*** Systems                                                         :systems:
+**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/0077a39c-0a2d-41e9-b4b7-6644f62c3c79/entries/atom?lang=en_us][IBM Systems (For IBM Internal Use Only)]]
+**** [[https://w3-connections.ibm.com/wikis/basic/api/wiki/26377c99-ab4a-4b0c-a17c-cce71d8a2222/page/45c081f2-8f46-4a8c-b0cf-e1b98ecafc1d/feed?category=version][IBM Systems Share]]
+
+**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/c49cb20d-7d79-4f93-bd9c-595506797e3d/entries/atom?lang=en_us][IBM Systems - Strategy and Development]]
+**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/5eb52c69-aecc-44e4-a7c2-008279535bf8/entries/atom?lang=en_us][Enterprise Systems and Technology Development]]
+**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/8f30ccef-9794-4c8e-aafd-ccebeec100c2/entries/atom?lang=en_us][Cognitive Systems Blog]]
+
+**** [[https://apps.na.collabserv.com/connections/opensocial/basic/rest/activitystreams/urn:lsid:lconn.ibm.com:communities.community:d48f7fee-f133-4a32-9923-1649389fe324/@all/@all?rollup=true&shortStrings=true&format=atom][Systems AI Worldwide Community]]                                      :ai:
+**** [[https://apps.na.collabserv.com/blogs/roller-ui/rendering/feed/d48f7fee-f133-4a32-9923-1649389fe324/entries/atom?lang=en_us][Blogs, Announcements & Latest News for the Systems AI Worldwide Community Community]] :ai:blogs:
+**** [[http://ibmsystemsmag.com/CMSTemplates/IBMSystemsMag/Feeds/AIXchange.aspx][IBM Systems Magazine - AIXchange]]
+** Emacs                                                              :emacs:
+*** [[http://sachachua.com/blog/feed/][sacha chua :: living an awesome life]]
+** Podcasts                                                        :podcasts:
+*** [[http://feed.jupiter.zone/allshows][All Jupiter Broadcasting Shows]]                                       :jb:
+*** [[https://www.google.com/calendar/ical/jalb5frk4cunnaedbfemuqbhv4@group.calendar.google.com/public/basic.ics][JB Calendar]]                                                 :jb:calendar:
+** Blogs                                                              :blogs:
+*** [[http://feeds.feedburner.com/Orangette][Orangette]]
+*** [[http://feeds.feedburner.com/TheTurtlePath][The Turtle Path]]
+*** [[https://svnereida.com/blog?format=feed&type=rss][Jeanne Socrates on S/V Nereida]]
+*** [[https://hackaday.com/tag/ham/feed/]]                                  :ham:
+*** [[https://hackaday.com/tag/the-50-ham/feed/]]                           :ham:
+*** [[https://xkcd.com/rss.xml][xkcd]]                                                               :xkcd:
+*** [[https://blog.xfce.org/feed]]                                         :xfce:
+*** [[http://dtrace.org/blogs/bmc/feed/rss/][The Observation Deck]]                                           :cantrill:
+*** [[https://www.hamradioqrp.com/feeds/posts/default]]             :hamradioqrp:
