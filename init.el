@@ -56,7 +56,7 @@
 
 ;; ERC
 (load-library "erc")
-(require 'erc-highlight-nicknames)
+(require 'erc-hl-nicks)
 (setq erc-autojoin-channels-alist
       '(
 	("freenode.net" "##aix" "#bitbucket" "#austin" "#emacs" "#erc" "#gnus" 
