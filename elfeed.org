@@ -1,43 +1,60 @@
-* Imported Feeds            :elfeed:
+* Feeds                                                              :elfeed:
 
-** IBM                                                                  :ibm:
-*** [[https://w3-connections.ibm.com/widget/opensocial/basic/rest/activitystreams/@me/@all/@all?shortStrings=true&rollup=true&format=atom][IBM Connections - News feed for David R. Marquardt]]
-*** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/30f982c3-616f-4b5b-9978-3b711e1fda79/entries/atom?lang=en_us][THINKtogether]]
-*** [[https://www.ibm.com/developerworks/community/blogs/roller-ui/rendering/feed/DaveMarquardt-dw/entries/atom?lang=en][Dave's Blog]]
-*** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/ad9b8359-56ec-4922-8c0d-081712adca47/entries/atom?lang=en_us][Strategic Imperatives Learning Events Community]]
-*** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/9b423260-ec3f-4c33-9e8e-91cd8d26e688/entries/atom?lang=en_us][Transforming IBM]]
-*** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/92423b28-353a-49d9-9d5d-d21cd1de10be/entries/atom?lang=en_us][Whole Team Approach - Project Whitewater blog]]
-*** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/801cf8e1-364a-48ec-ac2d-aa091376fff6/entries/atom?lang=en_us][Linux@IBM Blog]]
-*** [[https://www.ibm.com/blogs/systems/feed/][IBM IT Infrastructure Blog]]
-*** Austin                                                           :austin:
-**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/26e90eea-a787-4918-834a-278e93d52584/entries/atom?lang=en_us][Jason Kelley, Texas SSE]]
-**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/509d4b8b-1a5b-4a55-824d-ce396635cd31/entries/atom?lang=en_us][Austin Corporate Citizenship & Corporate Affairs]]
-
-**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/644f8ce1-2b1b-4b50-8c3d-4559da607988/entries/atom?lang=en_us][IBM Austin Leadership Blog]]
-
-*** Systems                                                         :systems:
-**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/0077a39c-0a2d-41e9-b4b7-6644f62c3c79/entries/atom?lang=en_us][IBM Systems (For IBM Internal Use Only)]]
-**** [[https://w3-connections.ibm.com/wikis/basic/api/wiki/26377c99-ab4a-4b0c-a17c-cce71d8a2222/page/45c081f2-8f46-4a8c-b0cf-e1b98ecafc1d/feed?category=version][IBM Systems Share]]
-
-**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/c49cb20d-7d79-4f93-bd9c-595506797e3d/entries/atom?lang=en_us][IBM Systems - Strategy and Development]]
-**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/5eb52c69-aecc-44e4-a7c2-008279535bf8/entries/atom?lang=en_us][Enterprise Systems and Technology Development]]
-**** [[https://w3-connections.ibm.com/blogs/roller-ui/rendering/feed/8f30ccef-9794-4c8e-aafd-ccebeec100c2/entries/atom?lang=en_us][Cognitive Systems Blog]]
-
-**** [[https://apps.na.collabserv.com/connections/opensocial/basic/rest/activitystreams/urn:lsid:lconn.ibm.com:communities.community:d48f7fee-f133-4a32-9923-1649389fe324/@all/@all?rollup=true&shortStrings=true&format=atom][Systems AI Worldwide Community]]                                      :ai:
-**** [[https://apps.na.collabserv.com/blogs/roller-ui/rendering/feed/d48f7fee-f133-4a32-9923-1649389fe324/entries/atom?lang=en_us][Blogs, Announcements & Latest News for the Systems AI Worldwide Community Community]] :ai:blogs:
-**** [[http://ibmsystemsmag.com/CMSTemplates/IBMSystemsMag/Feeds/AIXchange.aspx][IBM Systems Magazine - AIXchange]]
+** [[https://funcall.blogspot.com/atom.xml][Abstract Heresies]]                                            :programming:
+** [[https://www.adventurecycling.org/blog/feed/][Blog - Adventure Cycling Association]]              :adventure:cycling:bike:
+** [[https://weareblood.org/blog/feed/][Blog - We Are Blood]]                                      :blood:austin:tx:
+** [[https://ciderexplorer.wordpress.com/feed/][Cider Explorer]]                                                     :cider:
+** [[https://drewdevault.com/blog/index.xml][Drew DeVault's blog]]
 ** Emacs                                                              :emacs:
-*** [[http://sachachua.com/blog/feed/][sacha chua :: living an awesome life]]
+*** [[https://emacs.crys.site/index.xml][Cool Emacs]]                                                         :cool:
+*** [[https://coredumped.dev/index.xml][Core Dumped]]                                                 :core:dumped:
+*** [[https://kristofferbalintona.me/tags/emacs/index.xml][Emacs on Kristoffer Balintona]]
+*** https://planet.emacslife.com/atom.xml                       :planet:life:
+*** [[https://howardism.org/index.xml][Technical notes and essays about Clojure, Emacs, Lisp and the odds and ends of web development.]] :howard:abrams:
+*** [[https://systemcrafters.net/rss/news.xml][System Crafters News]]                                     :systemcrafters:
+*** [[https://tony-zorman.com/atom.xml][Tony Zorman · Blog]]                                               :zorman:
+** [[https://emersion.fr/blog/atom.xml][emersion]]                                                            :sway:
+** [[https://social.growyourown.services/@FediTips.rss][Fedi.Tips]]                                                       :mastodon:
+** [[https://hackaday.com/blog/feed/][Hackaday]]                                                        :hackaday:
+** IBM                                                                  :ibm:
+*** [[https://bugzilla.linux.ibm.com/buglist.cgi?bug_status=OPEN&bug_status=ASSIGNED&bug_status=WORKING&bug_status=REOPENED&bug_status=FIXEDAWAITINGTEST&bug_status=TESTED&bug_status=SUBMITTED&bug_status=ACCEPTED&bug_status=VERIFY&bug_status=REJECTED&bug_status=DEFERRED&bug_status=NEEDINFO&known_name=all_vnic&list_id=2372846&query_format=advanced&short_desc=ibmvnic%20vnic&short_desc_type=anywordssubstr&title=Bug%20List%3A%20all_vnic&ctype=atom][Bug List all_vnic]]                                              :vnic:bug:
+*** [[https://www.ibm.com/blog/feed/][IBM Blog]]                                                           :blog:
+*** [[https://www.redbooks.ibm.com/rss/power.xml][IBM Redbooks | IT Infrastructure-Power Systems]]           :power:redbooks:
+*** [[https://community.ibm.com/community/user/power/rssgenerator?UserKey=ad065345-c8d8-470e-8c22-f2474532bc38][IBM TechXchange Community RSS Feed]]                          :techxchange:
+*** [[https://lucianochavez.com/feed/][Luciano Chavez]]                                              :luciano:ltc:
+*** [[https://community.ibm.com/community/user/powerdeveloper/rssgenerator?UserKey=ad065345-c8d8-470e-8c22-f2474532bc38][Power Developer Exchange]] :power:pdx:
+** [[http://www.jimrigby.org/feed/][Jim Rigby]]
+** Linux                                                              :linux:
+*** [[https://distrowatch.com/news/dww.xml][DistroWatch.com: DistroWatch Weekly]]                        :distro:watch:
+*** [[https://people.kernel.org/kuba/feed/][Jakub Kicinski]]                                                   :netdev:
+*** [[https://planet.kernel.org/rss20.xml][Kernel Planet]]                                              :kernel:plant:
+*** [[https://www.kernel.org/feeds/all.atom.xml]]                :kernel:archive:
+*** [[https://lwn.net/headlines/rss][LWN.net]]                                                             :lwm:
+*** [[https://www.kernel.org/feeds/kdist.xml]]                         :releases:
 ** Podcasts                                                        :podcasts:
-*** [[http://feed.jupiter.zone/allshows][All Jupiter Broadcasting Shows]]                                       :jb:
-*** [[https://www.google.com/calendar/ical/jalb5frk4cunnaedbfemuqbhv4@group.calendar.google.com/public/basic.ics][JB Calendar]]                                                 :jb:calendar:
-** Blogs                                                              :blogs:
-*** [[http://feeds.feedburner.com/Orangette][Orangette]]
-*** [[http://feeds.feedburner.com/TheTurtlePath][The Turtle Path]]
-*** [[https://svnereida.com/blog?format=feed&type=rss][Jeanne Socrates on S/V Nereida]]
-*** [[https://hackaday.com/tag/ham/feed/]]                                  :ham:
-*** [[https://hackaday.com/tag/the-50-ham/feed/]]                           :ham:
-*** [[https://xkcd.com/rss.xml][xkcd]]                                                               :xkcd:
-*** [[https://blog.xfce.org/feed]]                                         :xfce:
-*** [[http://dtrace.org/blogs/bmc/feed/rss/][The Observation Deck]]                                           :cantrill:
-*** [[https://www.hamradioqrp.com/feeds/posts/default]]             :hamradioqrp:
+*** [[https://buttondown.email/thebootloader/rss][The Bootloader]]                                               :bootloader:
+*** Linux                                                             :linux:
+**** [[https://feed.jupiter.zone/allshows][All Jupiter Broadcasting Shows]]                                 :jupiter:
+*** Maximum Fun                                                     :max:fun:
+**** [[https://feeds.simplecast.com/_mp2DeJd][The Greatest Generatio]]                         :greatest:generation:gen:
+**** [[https://feeds.simplecast.com/d1rbEtgZ][Greatest Trek: New Star Trek Reviewed]]                    :greatest:trek:
+*** Music                                                             :music:
+**** [[http://feeds.libsyn.com/94145/rss][Sticky Notes: The Classical Music Podcast]]                       :sticky:
+*** Python                                                           :python:
+**** [[https://mathspp.com/blog.atom][mathspp.com feed]]                                               :mathspp:
+**** [[https://pythonbytes.fm/subscribe/rss][Python Bytes]]                                                     :bytes:
+**** [[https://feeds.transistor.fm/python-people][Python People]]                                                   :people:
+**** [[https://realpython.com/atom.xml][Real Python]]                                                       :real:
+**** [[https://talkpython.fm/subscribe/rss][Talk Python]]                                                       :talk:
+** Python                                                            :python:
+*** [[https://blog.adafruit.com/rss][Adafruit Industries – Makers, hackers, artists, designers and engineers!]] :adafruit:circuitpython:
+*** [[https://automationpanda.com/feed/][Automation Panda]]                                                  :panda:
+*** [[https://pycoders.com/feed/qkZ7a0Bh][PyCoder's Weekly]]                                               :pycoders:
+*** [[http://www.python.org/dev/peps/peps.rss][Python PEPs]]                                                         :pep:
+*** [[https://realpython.com/atom.xml][Real Python]]                                                        :real:
+*** [[https://talkpython.fm/subscribe/rss][Talk Python]]                                                        :talk:
+** [[https://www.qsotoday.com/blog/feed][QSO Today Blog]]                                                   :qso:ham:
+** [[https://www.quantamagazine.org/feed][Quanta Magazine]]                                                   :quanta:
+** [[https://technochic.net/blogs/technochic-diy-projects.atom][TechnoChic - Projects]]                                   :technochic:maker:
+** [[https://unixhist.crys.site/index.xml][Unix history]]                                                        :unix:
+** [[https://blog.varunramesh.net/rss.xml][Varun Ramesh's Blog]]

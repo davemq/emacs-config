@@ -1,0 +1,463 @@
+#+PROPERTY: header-args :tangle yes :comments both
+
+* Add MELPA
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+;; and `package-pinned-packages`. Most users will not need or want to do this.
+;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+#+end_src
+
+* Org
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(use-package org
+  :ensure t
+  :defer t
+  :bind (("C-c l" . org-store-link)
+	 ("C-c a" . org-agenda)
+	 ("C-c c" . org-capture))
+  :custom
+  (org-agenda-files '("/home/davemarq/org/ibm.org" "/home/davemarq/pers/personal.org") "")
+  (org-babel-process-comment-text (lambda (code &optional n) code))
+  ;; I tried setting this through customize, but it didn't seem to work
+  (org-agenda-bulk-custom-functions '((?D drm:org-agenda-deadline)))
+  :config
+  (org-agenda-to-appt)
+  ;; Change how org-babel-tangle handles comment text. I do /not/ want to remove the indentation.
+  ;; This helps the comments match the indentation of the code, which looks much nicer.
+  )
+#+end_src
+
+* orgbox
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(use-package orgbox
+  :ensure t
+  :defer t
+  :hook (org-agenda-mode . (lambda () "Load orgbox" (require 'orgbox)))
+  )
+#+end_src
+
+* Org Roam
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(use-package org-roam
+  :ensure t
+  :defer t
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :config
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol)
+  )
+#+end_src
+
+* Org habit stats
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(use-package org-habit-stats
+  :ensure t
+  :config
+  (define-key org-mode-map (kbd "C-c h") 'org-habit-stats-view-habit-at-point)
+  (define-key org-agenda-mode-map (kbd "H") 'org-habit-stats-view-habit-at-point-agenda)
+  :after (org)
+  )
+#+end_src
+
+* Org random scatter for deadlines
+
+#+begin_src emacs-lisp :tangle yes :comments both
+;; org agenda bulk action for random scatter for deadlines
+(defun drm:org-agenda-deadline ()
+  (unless (org-agenda-check-type nil 'agenda 'todo)
+    (user-error "Can't scatter tasks in \"%s\" agenda view" org-agenda-type))
+  (let ((days (read-number "Scatter tasks across how many days: " 7)))
+    (let ((distance (1+ (random days))))
+      ;; Silently fail when try to replan a sexp entry.
+      (ignore-errors
+	(let* ((date (calendar-gregorian-from-absolute
+		      (+ (org-today) distance)))
+	       (time (encode-time 0 0 0 (nth 1 date) (nth 0 date)
+				  (nth 2 date))))
+	  (org-agenda-deadline nil time)
+	  )
+	)
+      )
+    )
+  )
+#+end_src
+
+* Which key
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode)
+  )
+#+end_src
+
+* Vertico
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(use-package vertico
+  :ensure t
+  :config
+  (vertico-mode)
+  )
+#+end_src
+
+* Elfeed
+
+#+begin_src emacs-lisp :tangle yes :comments both
+;; elfeed
+(use-package elfeed
+  :ensure t
+  :defer t
+  :config
+  (use-package elfeed-goodies
+    :ensure t
+    )
+  (elfeed-goodies/setup)
+  (use-package elfeed-org
+    :ensure t
+    )
+  (elfeed-org)
+  )
+
+(use-package elfeed-score
+  :ensure t
+  :after (elfeed)
+  :config
+  (define-key elfeed-search-mode-map "=" elfeed-score-map)
+  :commands (elfeed-score-load-score-file)
+  )
+(elfeed-score-enable)
+
+(use-package elfeed-score-adapt
+  :load-path "~/elfeed-score-adapt"
+  :after (elfeed-score)
+  :commands (elfeed-score-adapt-enable)
+  )
+(elfeed-score-adapt-enable)
+
+;;;; Can't use elfeed-webkit due to versioning limitations. Maybe later.
+;; (use-package elfeed-webkit
+;;   :ensure
+;;   :bind (:map elfeed-show-mode-map
+;;               ("%" . elfeed-webkit-toggle)))
+#+end_src
+
+* Emacs server
+
+Allow use of src_sh{emacsclient}.
+
+#+begin_src emacs-lisp :tangle yes :comments both
+;; emacsclient
+(use-package server
+  :ensure t
+  :config
+  (server-start)
+  )
+#+end_src
+
+# * 1Password auth source
+
+# XXX I never got this working.
+
+# Use 1Password as an authentication source for IMAP.
+
+# #+begin_src emacs-lisp :tangle yes :comments both
+# (use-package auth-source-1password
+#   :ensure t
+#   :config
+#   (auth-source-1password-enable)
+#   )
+# #+end_src
+
+* Gnus
+
+# ** Simplify subjects for scoring
+
+# XXX I ended up changing gnus-default-adaptive-score-alist instead,
+# which seems to work just fine.
+
+# This applies mostly to Linux kernel mailing lists.
+
+# #+begin_src emacs-lisp :tangle yes :comments both
+# (defun drm:gnus-lkml-simplify (subject)
+#   ;; subjects we want to keep are like "[PATCH tag*]". We don't want to keep
+#   ;; things like 1/4 or 2/2.
+#   (let ((re (rx
+# 	     (group
+# 	      "[PATCH"
+# 	      (0+
+# 	       (any alnum)
+# 	       )
+# 	      (1+
+# 	       " "
+# 	       (1+
+# 		(any "0-9A-Za-z-")
+# 		)
+# 	       )
+# 	      )
+# 	     (optional
+# 	      " "
+# 	      (1+
+# 	       (any digit)
+# 	       )
+# 	      "/"
+# 	      (1+
+# 	       (any digit)
+# 	       )
+# 	      )
+# 	     "]"
+# 	     )
+# 	    )
+# 	)
+#     (if (string-match re subject)
+# 	(string-join (list (match-string 1 subject) "]"))
+#       subject
+#       )
+#     )
+#   )
+# #+end_src
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(use-package mh-e
+  :ensure t
+  :custom
+  (mh-lib-progs "/usr/libexec/nmh")
+  )
+
+(use-package gnus
+  :ensure t
+  :hook (gnus-setup-news . gnus-demon-init)
+  :custom
+  (gnus-adaptive-pretty-print t)
+  (gnus-decay-scores t)
+  (gnus-default-adaptive-score-alist
+   '((gnus-kill-file-mark) (gnus-unread-mark)
+     (gnus-read-mark (from 5) (subject 30) (followup 30))
+     (gnus-catchup-mark (subject -10) (followup -10) (from -5))
+     (gnus-killed-mark (from -4) (subject -20))
+     (gnus-del-mark (from -4) (subject -15))))
+  (gnus-demon-handlers '((gnus-demon-scan-news 7 1)))
+  (gnus-group-mode-hook '(gnus-agent-mode gnus-topic-mode))
+  (gnus-summary-exit-hook '(gnus-summary-bubble-group))
+  (gnus-summary-line-format "%U%R%4i %11&user-date; %I%(%[%4L: %-23,23f%]%) %s\12")
+  (gnus-thread-sort-functions
+   '(gnus-thread-sort-by-number gnus-thread-sort-by-total-score))
+  (gnus-treat-from-gravatar 'head)
+  (gnus-treat-mail-gravatar 'head)
+  (gnus-use-adaptive-scoring '(line))
+  (gnus-user-date-format-alist
+   '(((gnus-seconds-today) . "%H:%M") (604800 . "%a %H:%M")
+     ((gnus-seconds-month) . "%a %d") ((gnus-seconds-year) . "%b %d")
+     (t . "%b %d %Y")))
+  )
+#+end_src
+
+* Dashboard
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+#+end_src
+  
+* Magit
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(use-package magit
+  :ensure t
+  ;; :config
+  ;; (defun drm:magit--not-inside-repository-error ()
+  ;;   (magit--assert-usable-git))
+  ;; (advice-add 'magit--not-inside-repository-error :override #'drm:magit--not-inside-repository-error)
+  )
+#+end_src
+
+* Recent files
+
+#+begin_src emacs-lisp :tangle yes :comments both
+;; recentf
+(use-package recentf
+  :ensure t
+  :config
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  (setq recentf-max-saved-items 25)
+  :bind ("\C-x\C-r" . recentf-open-files))
+#+end_src
+
+
+# * Mastodon
+
+# #+begin_src emacs-lisp :tangle yes :comments both
+# ;; Mastodon client
+# (use-package mastodon-alt
+#   :ensure t
+#   :vc (:url "https://github.com/rougier/mastodon-alt.git"
+# 	    )
+#   )
+  
+# (use-package mastodon
+#   :ensure t
+#   :requires mastodon-alt
+#   :config
+#   (use-package mastodon-alt)
+#   (setq mastodon-instance-url "https://fosstodon.org"
+# 	mastodon-active-user "davemq")
+#   :commands
+#   (mastodon-alt-tl-activate)
+#   )
+# #+end_src
+
+# * ggtags
+
+# #+begin_src emacs-lisp
+# (use-package ggtags
+#   :ensure t
+#   :hook (c-mode-common asm-mode prog-mode)
+#   )
+# #+end_src
+
+* Company
+
+The Eglot documentation says if I have company-mode installed, it will
+use it. I think you have to enable it, not just install it. I enable
+it for prog-mode, which appears to be the ancestor of all or most
+programming modes.
+
+#+begin_src emacs-lisp
+(use-package company
+  :ensure t
+  :defer t
+  :hook prog-mode
+  )
+#+end_src
+
+* Eglot
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :ensure t
+  :defer t
+  :after (company)
+  :hook (prog-mode . eglot-ensure)
+  :bind (:map eglot-mode-map
+	 ("C-c r" . #'eglot-rename)
+	 ("C-c o" . #'eglot-code-action-organize-imports)
+	 ("C-c h" . #'eldoc)
+	 )
+  ;; it's probably a little silly to do this for the few assembly files I ever look at
+  :config
+  (add-to-list 'eglot-server-programs '(asm-mode . ("/home/davemarq/.cargo/bin/asm-lsp")))
+  )
+#+end_src
+
+# * EAF
+
+# #+begin_src emacs-lisp
+# (use-package eaf
+#   :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
+#   :custom
+#   ; See https://github.com/emacs-eaf/emacs-application-framework/wiki/Customization
+#   (eaf-browser-continue-where-left-off t)
+#   (eaf-browser-enable-adblocker t)
+#   (browse-url-browser-function 'eaf-open-browser)
+#   :config
+#   (defalias 'browse-web #'eaf-open-browser)
+#   (require 'eaf-browser)
+#   ;; (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+#   ;; (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+#   ;; (eaf-bind-key take_photo "p" eaf-camera-keybinding)
+#   ;; (eaf-bind-key nil "M-q" eaf-browser-keybinding) ;; unbind, see more in the Wiki
+#   )
+# #+end_src
+
+* EditorConfig
+
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :ensure t
+  :defer t
+  :hook prog-mode
+  )
+#+end_src
+
+# * Eglot
+
+# #+begin_src emacs-lisp
+# (use-package eglot
+#   :ensure t
+#   :hook ((c-mode-common c-ts-mode prog-mode python-mode) . eglot-ensure)
+#   )
+# #+end_src
+
+* Activity watch mode
+
+#+begin_src emacs-lisp
+;; (use-package activity-watch-mode
+;;   :ensure t
+;;   :config
+;;   (global-activity-watch-mode)
+;;   )
+#+end_src
+
+#+begin_src emacs-lisp
+;; (activity-watch--gen-feature-resolver 'org org-clock
+;;   "This implementation gets the current Org clock heading."
+;;   (when org-clock-heading
+;;     org-clock-heading
+;;     )
+;;   )
+#+end_src
+
+* Decide
+
+#+begin_src emacs-lisp
+(use-package decide
+  :ensure t
+  :defer t
+  :config
+  (decide-table-load-file "~/.emacs.d/alphaweighted.txt")
+  )
+#+end_src
+
+
+* Which function mode
+
+It appears that src_emacs-lisp{which-function-mode} is built in. I
+couldn't find a package to use with src_emacs-lisp{use-package}.
+
+
+#+begin_src emacs-lisp
+(which-function-mode)
+#+end_src
+
+
+* treesit-auto
+
+#+begin_src emacs-lisp
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+#+end_src
