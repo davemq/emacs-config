@@ -1,14 +1,18 @@
-(setq inhibit-startup-screen t)
+;(setq inhibit-startup-screen t)
 ;; package.el (ELPA)
 (require 'package)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.org/packages/") t)
 ;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(add-to-list 'load-path (expand-file-name "~/emacs/lisp"))
+;; XX I overwrote ~/emacs with the Emacs source from savannah.org, and this
+;;    somehow f'd up the definition of define-keymap. And I lost any custom
+;;    code in ~/emacs/lisp in the process. Dumb. Need to fix this.
+;(add-to-list 'load-path (expand-file-name "~/emacs/lisp"))
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/org")
 ;(add-to-list 'load-path "/gsa/ausgsa/projects/b/beam") ; for beam-parse.el
 
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file "~/.emacs.default/custom.el")
 (load custom-file)
 
 ;; Added by Package.el.  This must come before configurations of
@@ -17,9 +21,36 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(require 'ox-beamer)
+(use-package org
+  :ensure t
+  :bind (("\C-ca" . 'org-agenda))
+  :config
+  (require 'ox-beamer)
+  )
 
-(global-set-key "\C-ca" 'org-agenda)
+(use-package org-roam
+  :ensure t
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :config
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol))
+
+(use-package org-habit-stats
+  :ensure t
+  :config
+  (define-key org-mode-map (kbd "C-c h") 'org-habit-stats-view-habit-at-point)
+  (define-key org-agenda-mode-map (kbd "H") 'org-habit-stats-view-habit-at-point-agenda)
+  )
+
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; gtags
@@ -41,13 +72,17 @@
 
 ;; The default random seed method seems to pick the same things a lot. Seed random from 256 bits of /dev/urandom 
 ;; instead.
-(require 'bindat)
-(ignore-errors (let* ((raw (shell-command-to-string "head -c 4 /dev/urandom"))
-		      (decoded (bindat-unpack '((value u32)) (string-to-unibyte raw)))
-		      (value (bindat-get-field decoded 'value)))
-		 (load-theme (nth (% value (length (custom-available-themes)))
-				  (custom-available-themes)))))
+;; (require 'bindat)
+;; (ignore-errors (let* ((raw (shell-command-to-string "head -c 4 /dev/urandom"))
+;; 		      (decoded (bindat-unpack '((value u32)) (string-to-unibyte raw)))
+;; 		      (value (bindat-get-field decoded 'value)))
+;; 		 (load-theme (nth (% value (length (custom-available-themes)))
+;; 				  (custom-available-themes)))))
 
+(require 'rand-theme)
+;; Themes I never want to be selected
+(setq rand-theme-unwanted '(airline-alduin))
+;; (rand-theme)
 
 
 ;; C styles
@@ -56,6 +91,7 @@
 
 ;; ERC
 (load-library "erc")
+;; XXX lost in my ~/emacs source code debacle. Fix this!
 (require 'erc-hl-nicks)
 (setq erc-autojoin-channels-alist
       '(
@@ -66,34 +102,22 @@
 	("irc.geekshed.net" "#jupiterbroadcasting")
 	)
       )
+;(require 'znc)
 (defun drm:erc ()
   (interactive)
   ;; (condition-case nil (erc :server "ipv4-085.austin.ibm.com" :port 57000 
   ;;  			   :nick "davemq" :password "ibm") ; Bluenet
   ;;    (error nil))
-  (condition-case nil (erc :server "austin.irc.ibm.com"
-   			   :nick "davemq" :password "irc4me") ; Bluenet
-    (error nil))
-  ;; (condition-case nil (erc :server "ipv4-085.aus.stglabs.ibm.com" :port 57000 :nick "davemqf"
-  ;; 			   :password "freenode") ; Freenode
+  ;; (condition-case nil (erc :server "rhubarb" :nick "davemarq"
+  ;; 			   :password "irc4me") ; BitlBee
   ;;   (error nil))
-  (condition-case nil (erc :server "chat.freenode.net" :nick "davemq"
-			   :password "irc4me") ; Freenode
-    (error nil))
-  ;; (condition-case nil (erc :server "ipv4-085.aus.stglabs.ibm.com" :port 57000 :nick "davemqg"
-  ;; 			   :password "geekshed") ; GeekShed
-  ;;   (error nil)) ; Geekshed
-  (condition-case nil (erc :server "irc.geekshed.net" :nick "davemq"
-			   :password "irc4me") ; GeekShed
-    (error nil)) ; Geekshed
-  (condition-case nil (erc :server "localhost" :nick "davemarq"
-			   :password "irc4me") ; BitlBee
+  (condition-case nil (znc-all)		; ZNC
     (error nil))
   )
 
 ;; auto fill
-(add-hook 'text-mode-hook
-	  '(lambda () (auto-fill-mode 1)))
+;; (add-hook 'text-mode-hook
+;; 	  '(lambda () (auto-fill-mode 1)))
 
 ;; ;; EMMS
 ;; (require 'emms-player-simple)
@@ -123,6 +147,9 @@
   (insert 
    "#+PLOT: ind:1 deps:(4) type:2d with:histograms set:\"style fill solid\"
 "))
+
+;; super agenda
+;(org-super-agenda-mode)
 
 ;(require 'ox-taskjuggler)
 
@@ -177,3 +204,41 @@
       '(current
 	(nnregistry)
 	(nnweb "gmane" (nnweb-type gmane))))
+
+;; LSP
+(setq lsp-keymap-prefix "C-c l")
+(require 'lsp-mode)
+(require 'lsp-ui)
+(add-hook 'c-mode-common-hook #'lsp)
+
+;; elfeed-org
+(require 'elfeed-org)
+(require 'elfeed-goodies)
+(elfeed-goodies/setup)
+(elfeed-org)
+(use-package elfeed-score
+  :ensure t
+  :config
+  (progn
+    (elfeed-score-enable)
+    (define-key elfeed-search-mode-map "=" elfeed-score-map)))
+
+(which-key-mode)
+;(vertico-mode)
+
+;; fix deprecated remove-if-not, remove-if
+(require 'cl-lib)
+(defalias 'remove-if-not 'cl-remove-if-not)
+(defalias 'remove-if 'cl-remove-if)
+
+;; ActivityWatch
+;(global-activity-watch-mode)
+
+;; Add 12 hour poll time to mastodon
+;; (require 'mastodon)
+;; (defun add12hours (l)
+;;   (append l (list (cons "12 hours" (number-to-string (* 60 60 12)))))
+;;   )
+;; (advice-add 'mastodon-toot--poll-expiry-options-alist :filter-return 'add12hours)
+(setq mastodon-instance-url "https://fosstodon.org"
+      mastodon-active-user "davemq")
