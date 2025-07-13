@@ -1,0 +1,248 @@
+# LIterate Emacs config
+
+#+begin_src emacs-lisp
+  ;(setq inhibit-startup-screen t)
+  ;; package.el (ELPA)
+  (require 'package)
+  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/") t)
+  ;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+  ;; XX I overwrote ~/emacs with the Emacs source from savannah.org, and this
+  ;;    somehow f'd up the definition of define-keymap. And I lost any custom
+  ;;    code in ~/emacs/lisp in the process. Dumb. Need to fix this.
+  ;(add-to-list 'load-path (expand-file-name "~/emacs/lisp"))
+  (add-to-list 'load-path "/usr/share/emacs/site-lisp/org")
+  ;(add-to-list 'load-path "/gsa/ausgsa/projects/b/beam") ; for beam-parse.el
+
+  (setq custom-file "~/.emacs.default/custom.el")
+  (load custom-file)
+
+  ;; Added by Package.el.  This must come before configurations of
+  ;; installed packages.  Don't delete this line.  If you don't want it,
+  ;; just comment it out by adding a semicolon to the start of the line.
+  ;; You may delete these explanatory comments.
+  (package-initialize)
+
+  (use-package org
+    :ensure t
+    :bind (("\C-ca" . 'org-agenda))
+    :config
+    (require 'ox-beamer)
+    )
+
+  (use-package org-roam
+    :ensure t
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n f" . org-roam-node-find)
+           ("C-c n g" . org-roam-graph)
+           ("C-c n i" . org-roam-node-insert)
+           ("C-c n c" . org-roam-capture)
+           ;; Dailies
+           ("C-c n j" . org-roam-dailies-capture-today))
+    :config
+    ;; If you're using a vertical completion framework, you might want a more informative completion interface
+    (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+    (org-roam-db-autosync-mode)
+    ;; If using org-roam-protocol
+    (require 'org-roam-protocol))
+
+  (use-package org-habit-stats
+    :ensure t
+    :config
+    (define-key org-mode-map (kbd "C-c h") 'org-habit-stats-view-habit-at-point)
+    (define-key org-agenda-mode-map (kbd "H") 'org-habit-stats-view-habit-at-point-agenda)
+    )
+
+  (global-set-key (kbd "C-x g") 'magit-status)
+
+  ;; gtags
+  (add-to-list 'load-path "/usr/local/share/gtags")
+  (condition-case nil
+      (require 'gtags)
+    (error nil))
+
+  ;; color themes
+  ;; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/color-theme-el")
+  ;; (require 'color-theme "color-theme")
+  ;; (load-library "color-theme-library")
+  ;; ;; solarized
+  ;; (add-to-list 'load-path (expand-file-name "~/emacs/emacs-color-theme-solarized"))
+  ;; ;(require 'color-theme-solarized)
+
+  ;; ;; random theme
+  ;; (funcall (car (nth (random (length color-themes)) color-themes)))
+
+  ;; The default random seed method seems to pick the same things a lot. Seed random from 256 bits of /dev/urandom 
+  ;; instead.
+  ;; (require 'bindat)
+  ;; (ignore-errors (let* ((raw (shell-command-to-string "head -c 4 /dev/urandom"))
+  ;; 		      (decoded (bindat-unpack '((value u32)) (string-to-unibyte raw)))
+  ;; 		      (value (bindat-get-field decoded 'value)))
+  ;; 		 (load-theme (nth (% value (length (custom-available-themes)))
+  ;; 				  (custom-available-themes)))))
+
+  (require 'rand-theme)
+  ;; Themes I never want to be selected
+  (setq rand-theme-unwanted '(airline-alduin))
+  ;; (rand-theme)
+
+
+  ;; C styles
+  (c-add-style "aix" '("bsd" (indent-tabs-mode . nil)))
+  (c-add-style "aix4" '("aix" (c-basic-offset . 4)))
+
+  ;; ERC
+  (load-library "erc")
+  ;; XXX lost in my ~/emacs source code debacle. Fix this!
+  (require 'erc-hl-nicks)
+  (setq erc-autojoin-channels-alist
+        '(
+  	("freenode.net" "##aix" "#bitbucket" "#austin" "#emacs" "#erc" "#gnus" 
+  	 "#mercurial" "#org-mode" "#xmonad")
+  	("localhost" "#twitter")
+  	("irc.ibm.com" "#aix" "#linux" "#linuxc4eb" "#netdev-aix")
+  	("irc.geekshed.net" "#jupiterbroadcasting")
+  	)
+        )
+  ;(require 'znc)
+  (defun drm:erc ()
+    (interactive)
+    ;; (condition-case nil (erc :server "ipv4-085.austin.ibm.com" :port 57000 
+    ;;  			   :nick "davemq" :password "ibm") ; Bluenet
+    ;;    (error nil))
+    ;; (condition-case nil (erc :server "rhubarb" :nick "davemarq"
+    ;; 			   :password "irc4me") ; BitlBee
+    ;;   (error nil))
+    (condition-case nil (znc-all)		; ZNC
+      (error nil))
+    )
+
+  ;; auto fill
+  ;; (add-hook 'text-mode-hook
+  ;; 	  '(lambda () (auto-fill-mode 1)))
+
+  ;; ;; EMMS
+  ;; (require 'emms-player-simple)
+  ;; (require 'emms-source-file)
+  ;; (require 'emms-source-playlist)
+  ;; (require 'emms-player-rhythmbox)
+  ;; (setq emms-player-list '(emms-player-rhythmbox))
+
+  (put 'narrow-to-region 'disabled nil)
+
+  ;; Org-mode
+  (add-hook 'org-mode-hook 
+  	  (lambda () 
+  	    (require 'orgbox)
+  	    (require 'org-notify)
+  	    (org-notify-start)
+  	    )
+  	  )
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cb" 'org-iswitchb)
+
+  (defadvice org-clock-report (after insert-plot-line
+  				   activate)
+    "Add #+PLOT: line appropriate for clock table."
+    (insert 
+     "#+PLOT: ind:1 deps:(4) type:2d with:histograms set:\"style fill solid\"
+  "))
+
+  ;; super agenda
+  ;(org-super-agenda-mode)
+
+  ;(require 'ox-taskjuggler)
+
+  ;; P4
+  (add-to-list 'auto-coding-alist '("\\.p4r" . no-conversion-multibyte))
+  (add-to-list 'auto-mode-alist '("\\.p4r" . archive-mode))
+
+  ;; EUDC
+  (require 'eudc)
+  (eval-after-load
+      "message"
+    '(define-key message-mode-map [(control ?c) (tab)] 'eudc-expand-inline))
+  (eval-after-load
+      "sendmail"
+    '(define-key mail-mode-map [(control ?c) (tab)] 'eudc-expand-inline))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(default ((t (:background nil)))))
+
+  ;; BBDB
+  ;; (load-library "bbdb")
+  ;; (eval-after-load "gnus" '(progn (require 'bbdb) 
+  ;; 				(bbdb-initialize 'gnus 'message)))
+  ;; (eval-after-load "message" '(progn (require 'bbdb) 
+  ;; 				   (bbdb-initialize 'gnus 'message)))
+  ;; (bbdb-insinuate-message)
+  ;; (add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
+  ;; (setq bbdb/mail-auto-create-p t)
+  ;; (setq bbdb/news-auto-create-p t)
+  ;; (setq bbdb-use-pop-up t)
+
+  (put 'scroll-left 'disabled nil)
+
+  ;; autoloads
+  (autoload 'taskjuggler-mode "taskjuggler-mode")
+  (add-to-list 'auto-mode-alist '("\\.tjp\\'" . taskjuggler-mode))
+  (add-to-list 'auto-mode-alist '("\\.tji\\'" . taskjuggler-mode))
+  (add-to-list 'auto-mode-alist '("\\.tjsp\\'" . taskjuggler-mode))
+
+  ; Haskell
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+  ; Gnus
+  (setq
+   gnus-registry-max-entries 500000
+   gnus-registry-trace-extra '(sender subject))
+  (gnus-registry-initialize)
+  (setq gnus-refer-article-method
+        '(current
+  	(nnregistry)
+  	(nnweb "gmane" (nnweb-type gmane))))
+
+  ;; LSP
+  (setq lsp-keymap-prefix "C-c l")
+  (require 'lsp-mode)
+  (require 'lsp-ui)
+  (add-hook 'c-mode-common-hook #'lsp)
+
+  ;; elfeed-org
+  (require 'elfeed-org)
+  (require 'elfeed-goodies)
+  (elfeed-goodies/setup)
+  (elfeed-org)
+  (use-package elfeed-score
+    :ensure t
+    :config
+    (progn
+      (elfeed-score-enable)
+      (define-key elfeed-search-mode-map "=" elfeed-score-map)))
+
+  (which-key-mode)
+  ;(vertico-mode)
+
+  ;; fix deprecated remove-if-not, remove-if
+  (require 'cl-lib)
+  (defalias 'remove-if-not 'cl-remove-if-not)
+  (defalias 'remove-if 'cl-remove-if)
+
+  ;; ActivityWatch
+  ;(global-activity-watch-mode)
+
+  ;; Add 12 hour poll time to mastodon
+  ;; (require 'mastodon)
+  ;; (defun add12hours (l)
+  ;;   (append l (list (cons "12 hours" (number-to-string (* 60 60 12)))))
+  ;;   )
+  ;; (advice-add 'mastodon-toot--poll-expiry-options-alist :filter-return 'add12hours)
+  (setq mastodon-instance-url "https://fosstodon.org"
+        mastodon-active-user "davemq")
+#+end_src
