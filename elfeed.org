@@ -4,6 +4,7 @@
 ** [[https://www.adventurecycling.org/blog/feed/][Blog - Adventure Cycling Association]]              :adventure:cycling:bike:
 ** [[https://weareblood.org/blog/feed/][Blog - We Are Blood]]                                      :blood:austin:tx:
 ** [[https://ciderexplorer.wordpress.com/feed/][Cider Explorer]]                                                     :cider:
+** [[https://davemq.github.io/feed.xml][Dave's blog]]                                                      :dave:me:
 ** [[https://drewdevault.com/blog/index.xml][Drew DeVault's blog]]
 ** Emacs                                                              :emacs:
 *** [[https://emacs.crys.site/index.xml][Cool Emacs]]                                                         :cool:
