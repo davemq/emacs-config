@@ -13,6 +13,8 @@
 
 * Org
 
+** Base
+
 #+begin_src emacs-lisp :tangle yes :comments both
 (use-package org
   :ensure t
@@ -32,7 +34,7 @@
   )
 #+end_src
 
-* orgbox
+** orgbox
 
 #+begin_src emacs-lisp :tangle yes :comments both
 (use-package orgbox
@@ -42,7 +44,7 @@
   )
 #+end_src
 
-* Org Roam
+** Org Roam
 
 #+begin_src emacs-lisp :tangle yes :comments both
 (use-package org-roam
@@ -64,7 +66,7 @@
   )
 #+end_src
 
-* Org habit stats
+** Org habit stats
 
 #+begin_src emacs-lisp :tangle yes :comments both
 (use-package org-habit-stats
@@ -76,7 +78,7 @@
   )
 #+end_src
 
-* Org random scatter for deadlines
+** Org random scatter for deadlines
 
 #+begin_src emacs-lisp :tangle yes :comments both
 ;; org agenda bulk action for random scatter for deadlines
@@ -96,6 +98,16 @@
 	)
       )
     )
+  )
+#+end_src
+
+** Org Protocol
+
+Enable org-protocol.
+
+#+begin_src emacs-lisp
+(use-package org-protocol 
+  :ensure t
   )
 #+end_src
 
