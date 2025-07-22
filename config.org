@@ -101,16 +101,6 @@
   )
 #+end_src
 
-** Org Protocol
-
-Enable org-protocol.
-
-#+begin_src emacs-lisp
-(use-package org-protocol 
-  :ensure t
-  )
-#+end_src
-
 * Which key
 
 #+begin_src emacs-lisp :tangle yes :comments both
@@ -257,6 +247,28 @@ Allow use of src_sh{emacsclient}.
 (use-package gnus
   :ensure t
   :hook (gnus-setup-news . gnus-demon-init)
+  :init
+  (defun gnus-user-format-function-t (headers)
+    "Return tag from subject"
+    (let*
+	((subject (aref headers 1))
+	 (cb (string-match "\\[.+\\]" subject)))
+      (if cb
+	  (substring subject 0 (1+ (match-end 0)))
+	"")
+      )
+    )
+  (defun gnus-user-format-function-s (headers)
+    "Return subject - tag"
+    (let*
+	((subject (aref headers 1))
+	 (cb (string-match "\\[.+\\]" subject)))
+      (if cb
+	  (substring subject (min (1+ (match-end 0)) (length subject)))
+	subject
+	)
+      )
+    )
   :custom
   (gnus-adaptive-pretty-print t)
   (gnus-decay-scores t)
@@ -269,7 +281,7 @@ Allow use of src_sh{emacsclient}.
   (gnus-demon-handlers '((gnus-demon-scan-news 7 1)))
   (gnus-group-mode-hook '(gnus-agent-mode gnus-topic-mode))
   (gnus-summary-exit-hook '(gnus-summary-bubble-group))
-  (gnus-summary-line-format "%U%R%4i %11&user-date; %I%(%[%4L: %-23,23f%]%) %s\12")
+  (gnus-summary-line-format "%U%R%4i %11&user-date; %I%(%[%4L: %-23,23f%]%) %-32,32ut %us\12")
   (gnus-thread-sort-functions
    '(gnus-thread-sort-by-number gnus-thread-sort-by-total-score))
   (gnus-treat-from-gravatar 'head)
