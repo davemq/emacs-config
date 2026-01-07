@@ -15,7 +15,15 @@
 
 ** Base
 
+- bindings
+- don't remove indentation when org babel processes comment text
+- add a bulk custom function for deadlines
+- set babel languages
+- create appointments from agenda items
+- prefer to export code for inline source blocks.
+
 #+begin_src emacs-lisp :tangle yes :comments both
+(defvar appt-timer nil)			;for org-agenda-to-appt timer
 (use-package org
   :ensure t
   :defer t
@@ -23,14 +31,19 @@
 	 ("C-c a" . org-agenda)
 	 ("C-c c" . org-capture))
   :custom
-  (org-agenda-files '("/home/davemarq/org/ibm.org" "/home/davemarq/pers/personal.org") "")
+  (org-agenda-files '("/home/davemarq/org/ibm.org" "/home/davemarq/pers/personal.org" "/home/davemarq/org/2026") "")
   (org-babel-process-comment-text (lambda (code &optional n) code))
   ;; I tried setting this through customize, but it didn't seem to work
   (org-agenda-bulk-custom-functions '((?D drm:org-agenda-deadline)))
+  ;; moved from custom-set-variables block
+  (org-babel-load-languages '((emacs-lisp . t) 
+			      (C . t)
+			      (mscgen . t)
+			      (plantuml . t)))
   :config
-  (org-agenda-to-appt)
-  ;; Change how org-babel-tangle handles comment text. I do /not/ want to remove the indentation.
-  ;; This helps the comments match the indentation of the code, which looks much nicer.
+  (if (not appt-timer)
+      (setq appt-timer (run-at-time 0 3600 'org-agenda-to-appt)))
+  (setcdr (assoc :exports org-babel-default-inline-header-args) "code")
   )
 #+end_src
 
@@ -99,6 +112,18 @@
       )
     )
   )
+#+end_src
+
+* Mscgen
+
+This comes from a Github site, as its not packaged for Linux or ELPA
+or MELPA.
+
+#+begin_src emacs-lisp :tangle yes :comments both
+(use-package mscgen-mode
+  :ensure t
+  :vc (:url "https://github.com/thomsten/mscgen-mode.git"
+	    :rev :newest))
 #+end_src
 
 * Which key
@@ -254,7 +279,7 @@ Allow use of src_sh{emacsclient}.
 	((subject (aref headers 1))
 	 (cb (string-match "\\[.+\\]" subject)))
       (if cb
-	  (substring subject 0 (1+ (match-end 0)))
+	  (substring subject 0 (match-end 0))
 	"")
       )
     )
@@ -329,27 +354,17 @@ Allow use of src_sh{emacsclient}.
 #+end_src
 
 
-# * Mastodon
+* Mastodon
 
-# #+begin_src emacs-lisp :tangle yes :comments both
-# ;; Mastodon client
-# (use-package mastodon-alt
-#   :ensure t
-#   :vc (:url "https://github.com/rougier/mastodon-alt.git"
-# 	    )
-#   )
-  
-# (use-package mastodon
-#   :ensure t
-#   :requires mastodon-alt
-#   :config
-#   (use-package mastodon-alt)
-#   (setq mastodon-instance-url "https://fosstodon.org"
-# 	mastodon-active-user "davemq")
-#   :commands
-#   (mastodon-alt-tl-activate)
-#   )
-# #+end_src
+#+begin_src emacs-lisp :tangle yes :comments both
+;; Mastodon client
+(use-package mastodon
+  :ensure t
+  :config
+  (setq mastodon-instance-url "https://fosstodon.org"
+	mastodon-active-user "davemq")
+  )
+#+end_src
 
 # * ggtags
 
@@ -377,6 +392,7 @@ programming modes.
 
 * Eglot
 
+#+begin_comment
 #+begin_src emacs-lisp
 (use-package eglot
   :ensure t
@@ -393,6 +409,7 @@ programming modes.
   (add-to-list 'eglot-server-programs '(asm-mode . ("/home/davemarq/.cargo/bin/asm-lsp")))
   )
 #+end_src
+#+end_comment
 
 # * EAF
 
@@ -484,4 +501,48 @@ couldn't find a package to use with src_emacs-lisp{use-package}.
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
+#+end_src
+
+* tj3 Mode
+
+#+begin_src emacs-lisp
+(use-package tj3-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.tj[pi]\\'" . tj3-mode))
+  )
+#+end_src
+
+* ERC
+
+#+begin_src emacs-lisp
+(use-package erc
+  :ensure t
+  )
+#+end_src
+
+* Org Social
+
+#+begin_src emacs-lisp
+(use-package org-social
+  :ensure t
+  :requires request
+  :vc ( :url "https://github.com/tanrax/org-social.el"
+        :rev :newest)
+  :custom
+  (org-social-file "~/davemq.github.io/social.org")
+  (org-social-relay "https://org-social-relay.andros.dev")
+  (org-social-my-public-url "https://davemq.github.io/social.org")
+  )
+#+end_src
+
+* Desktop save mode
+
+After all these years, I read a blog post that mentions "Emacs
+desktop" and points to a Emacs info page about desktop save mode.
+What?! I've been a bit aware of this, but I guess nobody ever made the
+point this way before.
+
+#+begin_src emacs-lisp
+(desktop-save-mode 1)
 #+end_src
