@@ -9,6 +9,7 @@
 ** Emacs                                                              :emacs:
 *** [[https://emacs.crys.site/index.xml][Cool Emacs]]                                                         :cool:
 *** [[https://coredumped.dev/index.xml][Core Dumped]]                                                 :core:dumped:
+*** [[https://fosstodon.org/tags/emacs.rss][#emacs]]                                                         :mastodon:
 *** [[https://kristofferbalintona.me/tags/emacs/index.xml][Emacs on Kristoffer Balintona]]
 *** https://planet.emacslife.com/atom.xml                       :planet:life:
 *** [[https://howardism.org/index.xml][Technical notes and essays about Clojure, Emacs, Lisp and the odds and ends of web development.]] :howard:abrams:
@@ -16,6 +17,9 @@
 *** [[https://tony-zorman.com/atom.xml][Tony Zorman · Blog]]                                               :zorman:
 ** [[https://emersion.fr/blog/atom.xml][emersion]]                                                            :sway:
 ** [[https://social.growyourown.services/@FediTips.rss][Fedi.Tips]]                                                       :mastodon:
+** FSF                                                                  :fsf:
+*** [[https://static.fsf.org/fsforg/rss/blogs.xml][FSF blogs]]                                                     :fsf:blogs:
+*** [[https://static.fsf.org/fsforg/rss/news.xml][FSF News]]                                                       :fsf:news:
 ** [[https://hackaday.com/blog/feed/][Hackaday]]                                                        :hackaday:
 ** IBM                                                                  :ibm:
 *** [[https://bugzilla.linux.ibm.com/buglist.cgi?bug_status=OPEN&bug_status=ASSIGNED&bug_status=WORKING&bug_status=REOPENED&bug_status=FIXEDAWAITINGTEST&bug_status=TESTED&bug_status=SUBMITTED&bug_status=ACCEPTED&bug_status=VERIFY&bug_status=REJECTED&bug_status=DEFERRED&bug_status=NEEDINFO&known_name=all_vnic&list_id=2372846&query_format=advanced&short_desc=ibmvnic%20vnic&short_desc_type=anywordssubstr&title=Bug%20List%3A%20all_vnic&ctype=atom][Bug List all_vnic]]                                              :vnic:bug:
@@ -47,6 +51,7 @@
 **** [[https://feeds.transistor.fm/python-people][Python People]]                                                   :people:
 **** [[https://realpython.com/atom.xml][Real Python]]                                                       :real:
 **** [[https://talkpython.fm/subscribe/rss][Talk Python]]                                                       :talk:
+** [[https://fosstodon.org/tags/hangtrek.rss][Public posts tagged #hangtrek]]                          :hangtrek:mastodon:
 ** Python                                                            :python:
 *** [[https://blog.adafruit.com/rss][Adafruit Industries – Makers, hackers, artists, designers and engineers!]] :adafruit:circuitpython:
 *** [[https://automationpanda.com/feed/][Automation Panda]]                                                  :panda:
@@ -57,5 +62,6 @@
 ** [[https://www.qsotoday.com/blog/feed][QSO Today Blog]]                                                   :qso:ham:
 ** [[https://www.quantamagazine.org/feed][Quanta Magazine]]                                                   :quanta:
 ** [[https://technochic.net/blogs/technochic-diy-projects.atom][TechnoChic - Projects]]                                   :technochic:maker:
+** [[https://blog.burkert.me/posts/index.xml][Tom Burkert]]
 ** [[https://unixhist.crys.site/index.xml][Unix history]]                                                        :unix:
 ** [[https://blog.varunramesh.net/rss.xml][Varun Ramesh's Blog]]
