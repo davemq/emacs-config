@@ -152,7 +152,6 @@ or MELPA.
 ;; elfeed
 (use-package elfeed
   :ensure t
-  :defer t
   :config
   (use-package elfeed-goodies
     :ensure t
@@ -162,23 +161,20 @@ or MELPA.
     :ensure t
     )
   (elfeed-org)
-  )
+  (use-package elfeed-score
+    :ensure t
+    :commands elfeed-score-enable
+    :config
+    (define-key elfeed-search-mode-map "=" elfeed-score-map)
+    )
+  (elfeed-score-enable)  
+  (use-package elfeed-score-adapt
+    :commands elfeed-score-adapt-enable elfeed-score-adapt-expire-enable
+    )
+  (elfeed-score-adapt-enable)
+  (elfeed-score-adapt-expire-enable)
+)
 
-(use-package elfeed-score
-  :ensure t
-  :after (elfeed)
-  :config
-  (define-key elfeed-search-mode-map "=" elfeed-score-map)
-  :commands (elfeed-score-load-score-file)
-  )
-(elfeed-score-enable)
-
-(use-package elfeed-score-adapt
-  :load-path "~/elfeed-score-adapt"
-  :after (elfeed-score)
-  :commands (elfeed-score-adapt-enable)
-  )
-(elfeed-score-adapt-enable)
 
 ;;;; Can't use elfeed-webkit due to versioning limitations. Maybe later.
 ;; (use-package elfeed-webkit
@@ -392,7 +388,6 @@ programming modes.
 
 * Eglot
 
-#+begin_comment
 #+begin_src emacs-lisp
 (use-package eglot
   :ensure t
@@ -407,6 +402,17 @@ programming modes.
   ;; it's probably a little silly to do this for the few assembly files I ever look at
   :config
   (add-to-list 'eglot-server-programs '(asm-mode . ("/home/davemarq/.cargo/bin/asm-lsp")))
+  )
+#+end_src
+
+* Dumb Jump
+
+#+begin_comment
+#+begin_src emacs-lisp
+(use-package dumb-jump
+  :ensure t
+  :defer t
+  :hook (xref-backend-functions . dumb-jump-xref-activate)
   )
 #+end_src
 #+end_comment
@@ -440,15 +446,6 @@ programming modes.
   :hook prog-mode
   )
 #+end_src
-
-# * Eglot
-
-# #+begin_src emacs-lisp
-# (use-package eglot
-#   :ensure t
-#   :hook ((c-mode-common c-ts-mode prog-mode python-mode) . eglot-ensure)
-#   )
-# #+end_src
 
 * Activity watch mode
 
@@ -494,14 +491,19 @@ couldn't find a package to use with src_emacs-lisp{use-package}.
 
 * treesit-auto
 
-#+begin_src emacs-lisp
-(use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
-#+end_src
+Broken as of 2026-02-10. The package breaks
+src_emacs-lisp{auto-mode-alist} and wreaks all sorts of havoc. I'm
+following [[https://github.com/renzmann/treesit-auto/issues/144][the issue]] and will re-enable this later.
+
+# #+begin_src emacs-lisp
+# (use-package treesit-auto
+#   :ensure t
+#   :custom
+#   (treesit-auto-install 'prompt)
+#   :config
+#   (treesit-auto-add-to-auto-mode-alist 'all)
+#   (global-treesit-auto-mode))
+# #+end_src
 
 * tj3 Mode
 
@@ -534,15 +536,4 @@ couldn't find a package to use with src_emacs-lisp{use-package}.
   (org-social-relay "https://org-social-relay.andros.dev")
   (org-social-my-public-url "https://davemq.github.io/social.org")
   )
-#+end_src
-
-* Desktop save mode
-
-After all these years, I read a blog post that mentions "Emacs
-desktop" and points to a Emacs info page about desktop save mode.
-What?! I've been a bit aware of this, but I guess nobody ever made the
-point this way before.
-
-#+begin_src emacs-lisp
-(desktop-save-mode 1)
 #+end_src

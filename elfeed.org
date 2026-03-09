@@ -36,6 +36,7 @@
 *** [[https://www.kernel.org/feeds/all.atom.xml]]                :kernel:archive:
 *** [[https://lwn.net/headlines/rss][LWN.net]]                                                             :lwm:
 *** [[https://www.kernel.org/feeds/kdist.xml]]                         :releases:
+** [[https://www.theoldguybicycleblog.com/feeds/posts/default][The Old Guy Bicycle Blog]]                                    :bike:old:guy:
 ** Podcasts                                                        :podcasts:
 *** [[https://buttondown.email/thebootloader/rss][The Bootloader]]                                               :bootloader:
 *** Linux                                                             :linux:
