@@ -42,7 +42,7 @@
 *** Linux                                                             :linux:
 **** [[https://feed.jupiter.zone/allshows][All Jupiter Broadcasting Shows]]                                 :jupiter:
 *** Maximum Fun                                                     :max:fun:
-**** [[https://feeds.simplecast.com/_mp2DeJd][The Greatest Generatio]]                         :greatest:generation:gen:
+**** [[https://feeds.simplecast.com/_mp2DeJd][The Greatest Generation]]                         :greatest:generation:gen:
 **** [[https://feeds.simplecast.com/d1rbEtgZ][Greatest Trek: New Star Trek Reviewed]]                    :greatest:trek:
 *** Music                                                             :music:
 **** [[http://feeds.libsyn.com/94145/rss][Sticky Notes: The Classical Music Podcast]]                       :sticky:

@@ -52,7 +52,6 @@
 #+begin_src emacs-lisp :tangle yes :comments both
 (use-package orgbox
   :ensure t
-  :defer t
   :hook (org-agenda-mode . (lambda () "Load orgbox" (require 'orgbox)))
   )
 #+end_src
@@ -273,7 +272,7 @@ Allow use of src_sh{emacsclient}.
     "Return tag from subject"
     (let*
 	((subject (aref headers 1))
-	 (cb (string-match "\\[.+\\]" subject)))
+	 (cb (string-match "\\[[^]]+]" subject)))
       (if cb
 	  (substring subject 0 (match-end 0))
 	"")
@@ -283,11 +282,13 @@ Allow use of src_sh{emacsclient}.
     "Return subject - tag"
     (let*
 	((subject (aref headers 1))
-	 (cb (string-match "\\[.+\\]" subject)))
-      (if cb
-	  (substring subject (min (1+ (match-end 0)) (length subject)))
-	subject
-	)
+	 (cb (string-match "\\[[^]]+]" subject)))
+      (string-trim-left 
+       (if cb
+	   (substring subject (min (match-end 0) (length subject)))
+	 subject
+	 )
+       )
       )
     )
   :custom
@@ -299,10 +300,10 @@ Allow use of src_sh{emacsclient}.
      (gnus-catchup-mark (subject -10) (followup -10) (from -5))
      (gnus-killed-mark (from -4) (subject -20))
      (gnus-del-mark (from -4) (subject -15))))
-  (gnus-demon-handlers '((gnus-demon-scan-news 7 1)))
+  (gnus-demon-handlers '((gnus-demon-scan-news 13 1)))
   (gnus-group-mode-hook '(gnus-agent-mode gnus-topic-mode))
   (gnus-summary-exit-hook '(gnus-summary-bubble-group))
-  (gnus-summary-line-format "%U%R%4i %11&user-date; %I%(%[%4L: %-23,23f%]%) %-32,32ut %us\12")
+  (gnus-summary-line-format "%U%R%4i %11&user-date; %I%(%[%4L: %-23,23f%]%) %B%s\n")
   (gnus-thread-sort-functions
    '(gnus-thread-sort-by-number gnus-thread-sort-by-total-score))
   (gnus-treat-from-gravatar 'head)
