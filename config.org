@@ -1,5 +1,9 @@
 #+PROPERTY: header-args :tangle yes :comments both
 
+#+begin_src emacs-lisp :tangle yes :comments no
+;; -*- lexical-binding: t; -*-
+#+end_src
+
 * Add MELPA
 
 #+begin_src emacs-lisp :tangle yes :comments both
@@ -35,11 +39,6 @@
   (org-babel-process-comment-text (lambda (code &optional n) code))
   ;; I tried setting this through customize, but it didn't seem to work
   (org-agenda-bulk-custom-functions '((?D drm:org-agenda-deadline)))
-  ;; moved from custom-set-variables block
-  (org-babel-load-languages '((emacs-lisp . t) 
-			      (C . t)
-			      (mscgen . t)
-			      (plantuml . t)))
   :config
   (if (not appt-timer)
       (setq appt-timer (run-at-time 0 3600 'org-agenda-to-appt)))
@@ -56,36 +55,17 @@
   )
 #+end_src
 
-** Org Roam
-
-#+begin_src emacs-lisp :tangle yes :comments both
-(use-package org-roam
-  :ensure t
-  :defer t
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today))
-  :config
-  ;; If you're using a vertical completion framework, you might want a more informative completion interface
-  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-  (org-roam-db-autosync-mode)
-  ;; If using org-roam-protocol
-  (require 'org-roam-protocol)
-  )
-#+end_src
-
 ** Org habit stats
 
 #+begin_src emacs-lisp :tangle yes :comments both
 (use-package org-habit-stats
   :ensure t
-  :config
-  (define-key org-mode-map (kbd "C-c h") 'org-habit-stats-view-habit-at-point)
-  (define-key org-agenda-mode-map (kbd "H") 'org-habit-stats-view-habit-at-point-agenda)
+  :bind (
+	 :map org-mode-map
+	 ("C-c h" . org-habit-stats-view-habit-at-point)
+	 :map org-agenda-mode-map
+	 ("H" . org-habit-stats-view-habit-at-point-agenda)
+	 )
   :after (org)
   )
 #+end_src
@@ -113,74 +93,214 @@
   )
 #+end_src
 
-* Mscgen
+* Org Jekyll MD
 
-This comes from a Github site, as its not packaged for Linux or ELPA
-or MELPA.
-
-#+begin_src emacs-lisp :tangle yes :comments both
-(use-package mscgen-mode
+#+begin_src emacs-lisp
+(use-package ox-jekyll-md
   :ensure t
-  :vc (:url "https://github.com/thomsten/mscgen-mode.git"
-	    :rev :newest))
+  :demand t
+  )
 #+end_src
+
+# # * Mscgen
+
+# # This comes from a Github site, as its not packaged for Linux or ELPA
+# # or MELPA.
+
+# # #+begin_src emacs-lisp :tangle yes :comments both
+# # (use-package mscgen-mode
+# #   :ensure t
+# #   :vc (:url "https://github.com/thomsten/mscgen-mode.git"
+# # 	    :rev :newest))
+# # #+end_src
 
 * Which key
 
 #+begin_src emacs-lisp :tangle yes :comments both
 (use-package which-key
   :ensure t
-  :config
-  (which-key-mode)
+  :hook (after-init . which-key-mode)
+  )
+
+(use-package which-key-posframe
+  :ensure t
+  :hook which-key-mode
   )
 #+end_src
 
-* Vertico
+* Completion
+** Vertico
 
 #+begin_src emacs-lisp :tangle yes :comments both
 (use-package vertico
   :ensure t
-  :config
-  (vertico-mode)
+  :hook (after-init . vertico-mode)
+  )
+
+(use-package vertico-posframe
+  :ensure t
+  :hook vertico-mode
   )
 #+end_src
 
-* Elfeed
+** Orderless
 
-#+begin_src emacs-lisp :tangle yes :comments both
-;; elfeed
-(use-package elfeed
+#+begin_src emacs-lisp
+(use-package orderless
   :ensure t
-  :config
-  (use-package elfeed-goodies
-    :ensure t
-    )
-  (elfeed-goodies/setup)
-  (use-package elfeed-org
-    :ensure t
-    )
-  (elfeed-org)
-  (use-package elfeed-score
-    :ensure t
-    :commands elfeed-score-enable
-    :config
-    (define-key elfeed-search-mode-map "=" elfeed-score-map)
-    )
-  (elfeed-score-enable)  
-  (use-package elfeed-score-adapt
-    :commands elfeed-score-adapt-enable elfeed-score-adapt-expire-enable
-    )
-  (elfeed-score-adapt-enable)
-  (elfeed-score-adapt-expire-enable)
-)
-
-
-;;;; Can't use elfeed-webkit due to versioning limitations. Maybe later.
-;; (use-package elfeed-webkit
-;;   :ensure
-;;   :bind (:map elfeed-show-mode-map
-;;               ("%" . elfeed-webkit-toggle)))
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
 #+end_src
+
+** Marginalia
+
+#+begin_src emacs-lisp
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  :ensure t
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :hook (after-init . marginalia-mode)
+  )
+#+end_src
+
+** Prescient
+
+#+begin_src emacs-lisp
+(use-package prescient
+  :ensure t
+  )
+#+end_src
+
+** Embark + Consult
+
+#+begin_src emacs-lisp
+(use-package embark
+  :ensure t
+
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :custom
+
+  ;; Optionally replace the key help with a completing-read interface
+  (prefix-help-command #'embark-prefix-help-command)
+
+  ;; Show the Embark target at point via Eldoc. You may adjust the
+  ;; Eldoc strategy, if you want to see the documentation from
+  ;; multiple providers. Beware that using this can be a little
+  ;; jarring since the message shown in the minibuffer can be more
+  ;; than one line, causing the modeline to move up and down:
+
+  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+
+  ;; Add Embark to the mouse context menu. Also enable `context-menu-mode'.
+  ;; (context-menu-mode 1)
+  ;; (add-hook 'context-menu-functions #'embark-context-menu 100)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t) ; only need to install it, embark loads it after consult if found
+#+end_src
+
+
+** Corfu
+
+#+begin_src emacs-lisp
+(use-package corfu
+  :ensure t
+  ;; Optional customizations
+  ;; :custom
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match 'insert) ;; Configure handling of exact matches
+
+  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  :hook (after-init . global-corfu-mode)
+  )
+#+end_src
+
+** Cape
+
+#+begin_src emacs-lisp
+;; Add extensions
+(use-package cape
+  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
+  ;; Press C-c p ? to for help.
+  :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
+  ;; Alternatively bind Cape commands individually.
+  ;; :bind (("C-c p d" . cape-dabbrev)
+  ;;        ("C-c p h" . cape-history)
+  ;;        ("C-c p f" . cape-file)
+  ;;        ...)
+  :hook
+  (completion-at-point-functions . #'cape-dabbrev)
+  (completion-at-point-functions . #'cape-file)
+  (completion-at-point-functions . #'cape-elisp-block)
+  )
+#+end_src
+
+# # * Elfeed
+
+# # #+begin_src emacs-lisp :tangle yes :comments both
+# # ;; elfeed
+# # (use-package elfeed
+# #   :ensure t
+# #   :config
+# #   (use-package elfeed-goodies
+# #     :ensure t
+# #     )
+# #   (elfeed-goodies/setup)
+# #   (use-package elfeed-org
+# #     :ensure t
+# #     )
+# #   (elfeed-org)
+# #   (use-package elfeed-score
+# #     :ensure t
+# #     :commands elfeed-score-enable
+# #     :config
+# #     (define-key elfeed-search-mode-map "=" elfeed-score-map)
+# #     )
+# #   (elfeed-score-enable)  
+# #   ;; (use-package elfeed-score-adapt
+# #   ;;   :commands elfeed-score-adapt-enable elfeed-score-adapt-expire-enable
+# #   ;;   )
+# #   ;; (elfeed-score-adapt-enable)
+# #   ;; (elfeed-score-adapt-expire-enable)
+# # )
+
+
+# # ;;;; Can't use elfeed-webkit due to versioning limitations. Maybe later.
+# # ;; (use-package elfeed-webkit
+# # ;;   :ensure
+# # ;;   :bind (:map elfeed-show-mode-map
+# # ;;               ("%" . elfeed-webkit-toggle)))
+# # #+end_src
 
 * Emacs server
 
@@ -190,8 +310,7 @@ Allow use of src_sh{emacsclient}.
 ;; emacsclient
 (use-package server
   :ensure t
-  :config
-  (server-start)
+  :hook (after-init . server-start)
   )
 #+end_src
 
@@ -291,6 +410,31 @@ Allow use of src_sh{emacsclient}.
        )
       )
     )
+  (defun gnus-user-format-function-b (headers)
+    "Return subject if not blank otherwise first 140 characters of body"
+    (let
+	((subject (aref headers 1))
+	 (article (aref headers 0)))
+      (if (or (zerop (length subject))
+	      (string= subject "(untitled)"))
+	  ;; get body
+	  (if gnus-newsgroup-name
+	      (with-temp-buffer
+		(gnus-request-article-this-buffer article gnus-newsgroup-name)
+		(gnus-narrow-to-body)
+		(string-replace "\n" "\\n"
+				(replace-regexp-in-string "<[^>]*>" ""
+							  (buffer-substring-no-properties
+							   (point) (+ (point) 140)
+							   )
+							  )
+				)
+		)
+	    subject
+	    )
+	subject)
+      )
+    )
   :custom
   (gnus-adaptive-pretty-print t)
   (gnus-decay-scores t)
@@ -303,7 +447,8 @@ Allow use of src_sh{emacsclient}.
   (gnus-demon-handlers '((gnus-demon-scan-news 13 1)))
   (gnus-group-mode-hook '(gnus-agent-mode gnus-topic-mode))
   (gnus-summary-exit-hook '(gnus-summary-bubble-group))
-  (gnus-summary-line-format "%U%R%4i %11&user-date; %I%(%[%4L: %-23,23f%]%) %B%s\n")
+  (gnus-summary-line-format "%U%R%4i %11&user-date; %I%(%[%4L: %-23,23f%]%) %B%ub\n")
+  (gnus-summary-make-false-root 'none)
   (gnus-thread-sort-functions
    '(gnus-thread-sort-by-number gnus-thread-sort-by-total-score))
   (gnus-treat-from-gravatar 'head)
@@ -313,6 +458,8 @@ Allow use of src_sh{emacsclient}.
    '(((gnus-seconds-today) . "%H:%M") (604800 . "%a %H:%M")
      ((gnus-seconds-month) . "%a %d") ((gnus-seconds-year) . "%b %d")
      (t . "%b %d %Y")))
+  (mm-url-retries 3)
+  (mm-url-timeout 15)
   )
 #+end_src
 
@@ -330,10 +477,8 @@ Allow use of src_sh{emacsclient}.
 #+begin_src emacs-lisp :tangle yes :comments both
 (use-package magit
   :ensure t
-  ;; :config
-  ;; (defun drm:magit--not-inside-repository-error ()
-  ;;   (magit--assert-usable-git))
-  ;; (advice-add 'magit--not-inside-repository-error :override #'drm:magit--not-inside-repository-error)
+  :bind (("C-x g" . magit-status)
+	 ("C-x C-g" . magit-cstatus))
   )
 #+end_src
 
@@ -357,9 +502,9 @@ Allow use of src_sh{emacsclient}.
 ;; Mastodon client
 (use-package mastodon
   :ensure t
-  :config
-  (setq mastodon-instance-url "https://fosstodon.org"
-	mastodon-active-user "davemq")
+  :custom
+  (mastodon-instance-url "https://fosstodon.org")
+  (mastodon-active-user "davemq")
   )
 #+end_src
 
@@ -372,28 +517,36 @@ Allow use of src_sh{emacsclient}.
 #   )
 # #+end_src
 
-* Company
+# * Company
 
-The Eglot documentation says if I have company-mode installed, it will
-use it. I think you have to enable it, not just install it. I enable
-it for prog-mode, which appears to be the ancestor of all or most
-programming modes.
+# The Eglot documentation says if I have company-mode installed, it will
+# use it. I think you have to enable it, not just install it. I enable
+# it for prog-mode, which appears to be the ancestor of all or most
+# programming modes.
 
-#+begin_src emacs-lisp
-(use-package company
-  :ensure t
-  :defer t
-  :hook prog-mode
-  )
-#+end_src
+# #+begin_src emacs-lisp
+# (use-package company
+#   :ensure t
+#   :defer t
+#   :hook prog-mode
+#   )
+
+# (use-package company-posframe
+#   :ensure t
+#   :defer t
+#   :config
+#   (company-posframe-mode 1)
+#   )
+# #+end_src
 
 * Eglot
+
+- Set up Eglot.
 
 #+begin_src emacs-lisp
 (use-package eglot
   :ensure t
   :defer t
-  :after (company)
   :hook (prog-mode . eglot-ensure)
   :bind (:map eglot-mode-map
 	 ("C-c r" . #'eglot-rename)
@@ -401,22 +554,22 @@ programming modes.
 	 ("C-c h" . #'eldoc)
 	 )
   ;; it's probably a little silly to do this for the few assembly files I ever look at
-  :config
-  (add-to-list 'eglot-server-programs '(asm-mode . ("/home/davemarq/.cargo/bin/asm-lsp")))
+  ;; :config
+  ;; (add-to-list 'eglot-server-programs '(asm-mode . ("/home/davemarq/.cargo/bin/asm-lsp")))
   )
 #+end_src
 
-* Dumb Jump
+# * Dumb Jump
 
-#+begin_comment
-#+begin_src emacs-lisp
-(use-package dumb-jump
-  :ensure t
-  :defer t
-  :hook (xref-backend-functions . dumb-jump-xref-activate)
-  )
-#+end_src
-#+end_comment
+# #+begin_comment
+# #+begin_src emacs-lisp
+# (use-package dumb-jump
+#   :ensure t
+#   :defer t
+#   :hook (xref-backend-functions . dumb-jump-xref-activate)
+#   )
+# #+end_src
+# #+end_comment
 
 # * EAF
 
@@ -448,24 +601,24 @@ programming modes.
   )
 #+end_src
 
-* Activity watch mode
+# * Activity watch mode
 
-#+begin_src emacs-lisp
-;; (use-package activity-watch-mode
-;;   :ensure t
-;;   :config
-;;   (global-activity-watch-mode)
-;;   )
-#+end_src
+# #+begin_src emacs-lisp
+# ;; (use-package activity-watch-mode
+# ;;   :ensure t
+# ;;   :config
+# ;;   (global-activity-watch-mode)
+# ;;   )
+# #+end_src
 
-#+begin_src emacs-lisp
-;; (activity-watch--gen-feature-resolver 'org org-clock
-;;   "This implementation gets the current Org clock heading."
-;;   (when org-clock-heading
-;;     org-clock-heading
-;;     )
-;;   )
-#+end_src
+# #+begin_src emacs-lisp
+# ;; (activity-watch--gen-feature-resolver 'org org-clock
+# ;;   "This implementation gets the current Org clock heading."
+# ;;   (when org-clock-heading
+# ;;     org-clock-heading
+# ;;     )
+# ;;   )
+# #+end_src
 
 * Decide
 
@@ -496,15 +649,17 @@ Broken as of 2026-02-10. The package breaks
 src_emacs-lisp{auto-mode-alist} and wreaks all sorts of havoc. I'm
 following [[https://github.com/renzmann/treesit-auto/issues/144][the issue]] and will re-enable this later.
 
-# #+begin_src emacs-lisp
-# (use-package treesit-auto
-#   :ensure t
-#   :custom
-#   (treesit-auto-install 'prompt)
-#   :config
-#   (treesit-auto-add-to-auto-mode-alist 'all)
-#   (global-treesit-auto-mode))
-# #+end_src
+<2026-04-23 Thu> I'm enabling this to see if it works now.
+
+#+begin_src emacs-lisp
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+#+end_src
 
 * tj3 Mode
 
@@ -524,17 +679,117 @@ following [[https://github.com/renzmann/treesit-auto/issues/144][the issue]] and
   )
 #+end_src
 
-* Org Social
+# * Org Social
+
+# #+begin_src emacs-lisp
+# (use-package org-social
+#   :ensure t
+#   :requires request
+#   :vc ( :url "https://github.com/tanrax/org-social.el"
+#         :rev :newest)
+#   :custom
+#   (org-social-file "~/davemq.github.io/social.org")
+#   (org-social-relay "https://org-social-relay.andros.dev")
+#   (org-social-my-public-url "https://davemq.github.io/social.org")
+#   )
+# #+end_src
+
+# * Flycheck-posframe
+
+# #+begin_src emacs-lisp
+# (use-package flycheck-posframe
+#   :ensure t
+#   :after flycheck
+#   :hook (flycheck-mode)
+#   )
+# #+end_src
+
+* Transient-posframe
 
 #+begin_src emacs-lisp
-(use-package org-social
+(use-package transient-posframe
   :ensure t
-  :requires request
-  :vc ( :url "https://github.com/tanrax/org-social.el"
-        :rev :newest)
+  :hook (after-init . transient-posframe-mode)
+  )
+#+end_src
+
+# * Flymake
+
+# #+begin_src emacs-lisp
+# (use-package flymake
+#   :ensure t
+#   )
+
+# ;; (use-package flymake-popon
+# ;;   :ensure t
+# ;;   :after flymake
+# ;;   :hook (flymake-mode)
+# ;;   )
+# #+end_src
+
+* Performance tweaks
+
+** Disable Bidirectional Text Scanning (Doom Emacs)
+
+#+begin_src emacs-lisp
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+#+end_src
+
+** Skip Fontification During Input (Doom Emacs)
+
+#+begin_src emacs-lisp
+(setq redisplay-skip-fontification-on-input t)
+#+end_src
+
+** Increase Process Output Buffer for LSP (Doom, Purcell, Centaur)
+
+#+begin_src emacs-lisp
+(setq read-process-output-max (* 4 1024 1024)) ; 4MB
+#+end_src
+
+* ERC + ZNC
+
+#+begin_src emacs-lisp
+(use-package erc
+  :ensure t
+  )
+
+(use-package znc
+  :ensure t
+  )
+#+end_src
+
+* Ement
+
+#+begin_src emacs-lisp
+(use-package ement
+  :ensure t
+  )
+#+end_src
+
+* Rand-Theme
+
+#+begin_src emacs-lisp
+(use-package rand-theme
+  :ensure t
+  :defer t
+  :custom rand-theme-unwanted '(dummy)
+  )
+#+end_src
+
+* Rustic
+
+#+begin_src emacs-lisp
+(use-package rustic
+  :ensure t
   :custom
-  (org-social-file "~/davemq.github.io/social.org")
-  (org-social-relay "https://org-social-relay.andros.dev")
-  (org-social-my-public-url "https://davemq.github.io/social.org")
+  (rustic-format-on-save nil)
+  (rustic-lsp-client 'eglot)
+  (rustic-compile-directory-method 'rustic-project-root)
+  :hook (eglot--managed-mode . (lambda () (flymake-mode -1)))
+  :custom
+  (rustic-cargo-use-last-stored-arguments t)
   )
 #+end_src
